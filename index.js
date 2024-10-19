@@ -12,8 +12,13 @@ const PORT = process.env.PORT || 3000;
 const URL = process.env.MONGO_URI;
 
 // Middleware
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  })
+);
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
 app.use(authenticateCookie('token'));
 
@@ -23,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRoute);
-app.use('/user/bank', bankRoute);
+app.use('/bank', bankRoute);
 
 // connect to db
 connectToDatabase(URL).then(() => {

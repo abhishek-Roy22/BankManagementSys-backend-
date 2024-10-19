@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   addBankAccount,
   deleteBankAccount,
+  getBankAccount,
   getBankAccounts,
   updateBankAccount,
 } from '../controllers/bankController.js';
@@ -9,8 +10,9 @@ import {
 const bankRoute = Router();
 
 bankRoute.get('/', getBankAccounts);
+bankRoute.get('/:id', getBankAccount);
 bankRoute.post('/addAccount', addBankAccount);
-bankRoute.put('/update', updateBankAccount);
-bankRoute.delete('/delete', deleteBankAccount);
+bankRoute.put('/:id', updateBankAccount);
+bankRoute.delete('/:id', deleteBankAccount);
 
 export default bankRoute;

@@ -3,6 +3,11 @@ import User from '../models/userModel.js';
 const register = async (req, res) => {
   const { userName, email, password } = req.body;
   try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(401).send({ message: 'User already registered' });
+    }
+
     await User.create({
       userName,
       email,
@@ -24,7 +29,11 @@ const login = async (req, res) => {
   try {
     const token = await User.matchPassword(email, password);
     res
-      .cookie('token', token, { httpOnly: true, secure: true })
+      .cookie('token', token, {
+        httpOnly: false,
+        secure: false,
+        sameSite: 'Strict',
+      })
       .status(200)
       .json({ message: 'Login Successful', token });
   } catch (error) {
@@ -35,4 +44,9 @@ const login = async (req, res) => {
   }
 };
 
-export { register, login };
+const logout = async (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ message: 'Logout successful' });
+};
+
+export { register, login, logout };
