@@ -46,6 +46,10 @@ const addBankAccount = async (req, res) => {
 
 const getBankAccounts = async (req, res) => {
   try {
+    // Check if req.user exists and has an _id
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ message: 'Unauthorized request' });
+    }
     const bankAccounts = await BankAccount.find({
       user: req.user._id,
     }).populate('user');
@@ -54,7 +58,7 @@ const getBankAccounts = async (req, res) => {
     console.error(`Error adding bank account: ${error.message}`);
     res
       .status(500)
-      .json({ message: 'Error adding bank account. Please try again later.' });
+      .json({ message: 'Error getting bank account. Please try again later.' });
   }
 };
 
