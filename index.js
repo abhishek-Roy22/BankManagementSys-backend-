@@ -14,7 +14,7 @@ const URL = process.env.MONGO_URI;
 // Middleware
 app.use(
   cors({
-    origin: '*', // Netlify frontend URL
+    origin: 'https://bankmanagementsys.netlify.app', // Netlify frontend URL
     credentials: true, // if you need to send cookies
   })
 );
