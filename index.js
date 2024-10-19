@@ -12,7 +12,12 @@ const PORT = process.env.PORT || 3000;
 const URL = process.env.MONGO_URI;
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://your-frontend.netlify.app', // Netlify frontend URL
+    credentials: true, // if you need to send cookies
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(authenticateCookie('token'));
