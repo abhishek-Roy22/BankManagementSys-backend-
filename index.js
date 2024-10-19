@@ -12,12 +12,7 @@ const PORT = process.env.PORT || 3000;
 const URL = process.env.MONGO_URI;
 
 // Middleware
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(authenticateCookie('token'));
