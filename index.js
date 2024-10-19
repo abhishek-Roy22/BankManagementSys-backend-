@@ -12,13 +12,8 @@ const PORT = process.env.PORT || 3000;
 const URL = process.env.MONGO_URI;
 
 // Middleware
-app.use(
-  cors({
-    origin: 'https://bankmanagementsys.netlify.app', // Netlify frontend URL
-    credentials: true, // if you need to send cookies
-  })
-);
 app.use(express.json());
+app.use(cors());
 app.use(cookieParser());
 app.use(authenticateCookie('token'));
 
