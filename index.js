@@ -13,7 +13,12 @@ const URL = process.env.MONGO_URI;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://bankmanagementsys.netlify.app',
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  })
+);
 app.use(cookieParser());
 app.use(authenticateCookie('token'));
 
