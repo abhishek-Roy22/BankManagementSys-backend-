@@ -30,8 +30,8 @@ const login = async (req, res) => {
     const token = await User.matchPassword(email, password);
     res
       .cookie('token', token, {
-        httpOnly: false,
-        secure: false,
+        httpOnly: true,
+        secure: true,
         sameSite: 'Strict',
       })
       .status(200)
