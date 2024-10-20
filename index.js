@@ -15,7 +15,7 @@ const URL = process.env.MONGO_URI;
 app.use(express.json());
 app.use(
   cors({
-    origin: 'http://localhost:3000', // change in production
+    origin: 'https://bankmanagementsys.netlify.app', // change in production
     credentials: true,
   })
 );
