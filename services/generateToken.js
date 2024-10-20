@@ -8,6 +8,7 @@ const createToken = (user) => {
     _id: user._id,
     userName: user.userName,
     email: user.email,
+    isAdmin: user.isAdmin,
   };
   const token = jwt.sign(payload, securityKey);
   return token;

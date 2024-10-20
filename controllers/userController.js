@@ -35,4 +35,11 @@ const login = async (req, res) => {
   }
 };
 
-export { register, login };
+const logout = async (req, res) => {
+  // Clear the cookie
+  res.clearCookie('token', { httpOnly: true, secure: true });
+  // Send response
+  res.status(200).json({ message: 'Logout Successful' });
+};
+
+export { register, login, logout };
