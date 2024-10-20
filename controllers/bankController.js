@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import BankAccount from '../models/bankModel.js';
 
 const addBankAccount = async (req, res) => {
@@ -46,30 +47,38 @@ const addBankAccount = async (req, res) => {
 
 const getBankAccounts = async (req, res) => {
   try {
-    // Check if req.user exists and has an _id
-    if (!req.user || !req.user._id) {
-      return res.status(401).json({ message: 'Unauthorized request' });
-    }
     const bankAccounts = await BankAccount.find({
       user: req.user._id,
     }).populate('user');
     res.status(200).json({ bankAccounts });
   } catch (error) {
-    console.error(`Error adding bank account: ${error.message}`);
-    res
-      .status(500)
-      .json({ message: 'Error getting bank account. Please try again later.' });
+    console.error(`Error getting bank accounts: ${error.message}`);
+    res.status(500).json({
+      message: 'Error getting bank accounts. Please try again later.',
+    });
   }
 };
 
 const getBankAccount = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Validate the MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid bank account ID' });
+    }
+
     const bankAccount = await BankAccount.findById(id);
+    // Check if bank account exists
+    if (!bankAccount) {
+      return res.status(404).json({ message: 'Bank account not found' });
+    }
     res.status(200).json({ bankAccount });
   } catch (error) {
-    // console.log(error.message)
-    res.status(500).send({ message: error.message });
+    console.error(`Error getting bank account:`, error);
+    res
+      .status(500)
+      .json({ message: 'Error getting bank account, please try again' });
   }
 };
 

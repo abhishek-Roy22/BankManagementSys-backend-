@@ -15,20 +15,24 @@ const URL = process.env.MONGO_URI;
 app.use(express.json());
 app.use(
   cors({
-    origin: 'https://bankmanagementsys.netlify.app',
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    origin: 'http://localhost:3000', // change in production
+    credentials: true,
   })
 );
 app.use(cookieParser());
-app.use(authenticateCookie('token'));
 
 // Rooutes
 app.get('/', (req, res) => {
   res.status(200).send('Server is Running!');
 });
 
+//To check whether the user is logged
+app.get('/auth/check', authenticateCookie('token'), (req, res) => {
+  res.status(200).json({ message: 'User is authenticated', user: req.user });
+});
+
 app.use('/user', userRoute);
-app.use('/bank', bankRoute);
+app.use('/bank', authenticateCookie('token'), bankRoute);
 
 // connect to db
 connectToDatabase(URL).then(() => {

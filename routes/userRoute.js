@@ -16,7 +16,7 @@ userRoute.get(
   async (req, res) => {
     try {
       // Fetch all bank accounts and populate the related user info
-      const bankAccounts = await BankAccount.find({});
+      const bankAccounts = await BankAccount.find().populate('user');
       res.status(200).json({ bankAccounts });
     } catch (error) {
       res
